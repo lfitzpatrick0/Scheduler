@@ -70,6 +70,8 @@ void insert( ListNodePtr *sPtr, int value )
 	}
 }
 
+//this will loop infinitely
+//add a loop counter
 void printList( ListNodePtr currentPtr )
 {
 	while( currentPtr != NULL )
