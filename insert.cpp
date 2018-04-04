@@ -2,7 +2,8 @@
 using namespace std;
 
 struct listNode {
-	int data;
+	int arrival;
+	int burst;
 	struct listNode *next;
 };
 
