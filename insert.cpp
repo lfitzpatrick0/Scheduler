@@ -26,23 +26,15 @@ int main()
 	insert( &startPtr, 1, 2, "P3" );
 	insert( &startPtr, 9, 1, "P4" );
 	insert( &startPtr, 3, 3, "P5" );
-
-	
-	// uncomment for circular linked list.
 	
 	listNode *scheduler = circular( startPtr );
-	
-	/*
-	removeProc(&startPtr, "P3");
-	
-	printList(startPtr, &startPtr);
-	*/
 
 	printList(scheduler, &startPtr);
 	return 0;
 }
 
-struct listNode* circular( struct listNode* head )
+//struct listNode* circular( struct listNode* head )
+ListNodePtr circular(ListNodePtr head)
 {
 	struct listNode* start = head;
 	while(head->next != NULL)
@@ -91,30 +83,29 @@ void printList( ListNodePtr currentPtr, ListNodePtr *sPtr )
 	cout << "Time " << "Process " << "Burst" << endl;
 	ListNodePtr head = *sPtr;
 	int acc = 0;
-	int qt = 1;
+	int qt = 2;
 	while( currentPtr != NULL && currentPtr != currentPtr->next )
 	{
-		
 		if(currentPtr->burst >= qt)
 		{
 			cout << setw(4) << acc << " " << setw(5) << currentPtr->procName << " " << setw(5) << currentPtr->burst << endl;
-			acc += qt;
-			//cout << currentPtr->burst << endl;
+
 			currentPtr->burst -= qt;
-			
+
+			acc += qt;
+
 		} else if( currentPtr->burst <= 0 ) {
-			//cout << " REMOVE" << endl;
+			/* Remove Node */
 			removeProc(&head, currentPtr->procName);
-			//cout << acc << " " << currentPtr->procName << " " << currentPtr->burst << endl;
 		}
 		else
 		{
 			cout << setw(4) << acc << " " << setw(5) << currentPtr->procName << " " << setw(5) << currentPtr->burst << endl;
+			
+			acc += currentPtr->burst;
+			
 			currentPtr->burst -= qt;
 		}
-		//cout << acc << " " << currentPtr->procName << " " << currentPtr->burst << endl;
-		//cout << currentPtr->burst << " ";
-		//cout << endl;
 		currentPtr = currentPtr->next;
 	}
 }
