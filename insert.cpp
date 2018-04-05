@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 using namespace std;
 
@@ -87,6 +88,7 @@ void insert( ListNodePtr *sPtr, int burst, int arrival, string name )
 
 void printList( ListNodePtr currentPtr, ListNodePtr *sPtr )
 {
+	cout << "Time " << "Process " << "Burst" << endl;
 	ListNodePtr head = *sPtr;
 	int acc = 0;
 	int qt = 1;
@@ -95,19 +97,20 @@ void printList( ListNodePtr currentPtr, ListNodePtr *sPtr )
 		
 		if(currentPtr->burst >= qt)
 		{
-			cout << acc << " " << currentPtr->procName << " " << currentPtr->burst << endl;
+			cout << setw(4) << acc << " " << setw(5) << currentPtr->procName << " " << setw(5) << currentPtr->burst << endl;
 			acc += qt;
 			//cout << currentPtr->burst << endl;
 			currentPtr->burst -= qt;
 			
-		} else if( currentPtr->burst == 0 ) {
+		} else if( currentPtr->burst <= 0 ) {
 			//cout << " REMOVE" << endl;
 			removeProc(&head, currentPtr->procName);
 			//cout << acc << " " << currentPtr->procName << " " << currentPtr->burst << endl;
 		}
 		else
 		{
-			cout << " IDK" << endl;
+			cout << setw(4) << acc << " " << setw(5) << currentPtr->procName << " " << setw(5) << currentPtr->burst << endl;
+			currentPtr->burst -= qt;
 		}
 		//cout << acc << " " << currentPtr->procName << " " << currentPtr->burst << endl;
 		//cout << currentPtr->burst << " ";
