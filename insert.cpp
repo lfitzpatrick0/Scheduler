@@ -13,7 +13,7 @@ typedef struct listNode ListNode;
 typedef ListNode *ListNodePtr;
 
 void insert( ListNodePtr *sPtr, int burst, int arrival, string name );
-void printList( ListNodePtr currentPtr );
+void printList( ListNodePtr currentPtr, ListNodePtr *sPtr );
 struct listNode* circular( struct listNode* head );
 void removeProc(ListNodePtr *sPtr, string procName);
 
@@ -28,14 +28,16 @@ int main()
 
 	
 	// uncomment for circular linked list.
-	//listNode *scheduler = circular( startPtr );
 	
-	printList(startPtr);
+	listNode *scheduler = circular( startPtr );
 	
+	/*
 	removeProc(&startPtr, "P3");
 	
-	printList(startPtr);
+	printList(startPtr, &startPtr);
+	*/
 
+	printList(scheduler, &startPtr);
 	return 0;
 }
 
@@ -65,7 +67,7 @@ void insert( ListNodePtr *sPtr, int burst, int arrival, string name )
 		previousPtr = NULL;
 		currentPtr = *sPtr;
 		
-		while( currentPtr != NULL && arrival > currentPtr->arrival )
+		while( currentPtr != NULL && arrival >= currentPtr->arrival )
 		{
 			previousPtr = currentPtr;
 			currentPtr = currentPtr->next;
@@ -83,11 +85,33 @@ void insert( ListNodePtr *sPtr, int burst, int arrival, string name )
 	}
 }
 
-void printList( ListNodePtr currentPtr )
+void printList( ListNodePtr currentPtr, ListNodePtr *sPtr )
 {
-	while( currentPtr != NULL )
+	ListNodePtr head = *sPtr;
+	int acc = 0;
+	int qt = 1;
+	while( currentPtr != NULL && currentPtr != currentPtr->next )
 	{
-		cout << currentPtr->procName << endl;
+		
+		if(currentPtr->burst >= qt)
+		{
+			cout << acc << " " << currentPtr->procName << " " << currentPtr->burst << endl;
+			acc += qt;
+			//cout << currentPtr->burst << endl;
+			currentPtr->burst -= qt;
+			
+		} else if( currentPtr->burst == 0 ) {
+			//cout << " REMOVE" << endl;
+			removeProc(&head, currentPtr->procName);
+			//cout << acc << " " << currentPtr->procName << " " << currentPtr->burst << endl;
+		}
+		else
+		{
+			cout << " IDK" << endl;
+		}
+		//cout << acc << " " << currentPtr->procName << " " << currentPtr->burst << endl;
+		//cout << currentPtr->burst << " ";
+		//cout << endl;
 		currentPtr = currentPtr->next;
 	}
 }
@@ -102,7 +126,7 @@ void removeProc(ListNodePtr *sPtr, string procName)
 	{
 		tempPtr = *sPtr;
 		*sPtr = (*sPtr)->next;
-		free( tempPtr );
+		//free( tempPtr );
 	}
 	else {
 		previousPtr = *sPtr;
@@ -114,7 +138,7 @@ void removeProc(ListNodePtr *sPtr, string procName)
 		}
 		if( currentPtr != NULL )
 		{
-			cout << "removing: " << currentPtr->procName << endl;
+			//cout << "removing: " << currentPtr->procName << endl;
 			tempPtr = currentPtr;
 			previousPtr->next = currentPtr->next;
 			free( tempPtr );
