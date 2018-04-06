@@ -15,8 +15,8 @@ typedef ListNode *ListNodePtr;
 
 void insert( ListNodePtr *sPtr, int burst, int arrival, string name );
 void printList( ListNodePtr currentPtr, ListNodePtr *sPtr );
-struct listNode* circular( struct listNode* head );
 void removeProc(ListNodePtr *sPtr, string procName);
+ListNodePtr circular(ListNodePtr head);
 
 int main()
 {
@@ -27,7 +27,7 @@ int main()
 	insert( &startPtr, 9, 1, "P4" );
 	insert( &startPtr, 3, 3, "P5" );
 	
-	listNode *scheduler = circular( startPtr );
+	ListNodePtr scheduler = circular( startPtr );
 
 	printList(scheduler, &startPtr);
 	return 0;
@@ -108,6 +108,7 @@ void printList( ListNodePtr currentPtr, ListNodePtr *sPtr )
 		}
 		currentPtr = currentPtr->next;
 	}
+	cout << setw(4) << acc << endl;
 }
 
 void removeProc(ListNodePtr *sPtr, string procName)
