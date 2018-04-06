@@ -83,7 +83,7 @@ void printList( ListNodePtr currentPtr, ListNodePtr *sPtr )
 	cout << "Time " << "Process " << "Burst" << endl;
 	ListNodePtr head = *sPtr;
 	int acc = 0;
-	int qt = 2;
+	int qt = 1;
 	while( currentPtr != NULL && currentPtr != currentPtr->next )
 	{
 		if(currentPtr->burst >= qt)
